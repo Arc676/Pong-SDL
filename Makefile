@@ -2,9 +2,9 @@
 CC=gcc
 
 CFLAGS=`sdl2-config --libs --cflags` -Wall -lSDL2_image -lm
-HDRS=
+HDRS=player.h ball.h util.h
 
-SRCS=main.c
+SRCS=main.c player.c ball.c util.c
 OBJS=$(SRCS:.c=.o)
 
 EXEC=pong
