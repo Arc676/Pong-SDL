@@ -1,4 +1,4 @@
 .*
 pong
 *.ignore
-*.o
+obj
