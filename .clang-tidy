@@ -1,5 +1,5 @@
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,clang-analyzer-*,concurrency-*,misc-*,performance-*,porability-*,readability-*'
+Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,clang-analyzer-*,concurrency-*,misc-*,performance-*,porability-*,readability-*,-readability-isolate-declaration'
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
@@ -106,7 +106,7 @@ CheckOptions:
   modernize-loop-convert.MaxCopySize: '16'
   performance-inefficient-vector-operation.EnableProto: 'false'
   readability-suspicious-call-argument.PrefixDissimilarBelow: '25'
-  bugprone-easily-swappable-parameters.MinimumLength: '2'
+  bugprone-easily-swappable-parameters.MinimumLength: '3'
   bugprone-argument-comment.CommentStringLiterals: '0'
   performance-for-range-copy.AllowedTypes: ''
   misc-non-private-member-variables-in-classes.IgnorePublicMemberVariables: 'false'

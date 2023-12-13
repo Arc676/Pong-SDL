@@ -10,6 +10,7 @@ extern const int PLAYER_HEIGHT;
 extern const int PLAYER_WIDTH;
 
 struct Player {
+	int x;
 	int y;
 	int speed;
 	int score;

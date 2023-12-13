@@ -1,10 +1,14 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_keyboard.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_scancode.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_video.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 #include "ball.h"
 #include "player.h"
@@ -17,6 +21,9 @@ int main() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		printf("error initializing SDL: %s\n", SDL_GetError());
 	}
+
+	srand(time(NULL));
+
 	SDL_Window* win =
 		SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 	                     WINDOW_WIDTH, WINDOW_HEIGHT, 0);
@@ -37,15 +44,47 @@ int main() {
 	while (!exitGame) {
 		SDL_Event event;
 
+		// controls
+		static int up1 = 0, down1 = 0;
+		static int up2 = 0, down2 = 0;
+
 		// event polling
-		if (SDL_PollEvent(&event)) {
+		while (SDL_PollEvent(&event)) {
 			switch (event.type) {
-				case SDL_KEYUP:
-					if (event.key.keysym.scancode == SDL_SCANCODE_Q) {
+				case SDL_KEYUP: {
+					SDL_Scancode key = event.key.keysym.scancode;
+					if (key == SDL_SCANCODE_Q) {
 						exitGame = 1;
+					} else if (key == SDL_SCANCODE_W) {
+						up1 = 0;
+					} else if (key == SDL_SCANCODE_S) {
+						down1 = 0;
+					} else if (key == SDL_SCANCODE_UP) {
+						up2 = 0;
+					} else if (key == SDL_SCANCODE_DOWN) {
+						down2 = 0;
 					}
+					break;
+				}
+				case SDL_KEYDOWN: {
+					SDL_Scancode key = event.key.keysym.scancode;
+					if (key == SDL_SCANCODE_W) {
+						up1 = 1;
+					} else if (key == SDL_SCANCODE_S) {
+						down1 = 1;
+					} else if (key == SDL_SCANCODE_UP) {
+						up2 = 1;
+					} else if (key == SDL_SCANCODE_DOWN) {
+						down2 = 1;
+					}
+				}
 			}
 		}
+
+		// entity updates
+		player_update(&player1, up1, down1);
+		player_update(&player2, up2, down2);
+		ball_update(&ball, &player1, &player2);
 
 		// rendering
 		// NOLINTNEXTLINE(readability-magic-numbers)
