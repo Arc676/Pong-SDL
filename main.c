@@ -13,6 +13,7 @@
 
 #include "ball.h"
 #include "player.h"
+#include "score.h"
 
 const int WINDOW_WIDTH = 1000, WINDOW_HEIGHT = 1000;
 const int FRAME_DELAY = 1000 / 60;
@@ -68,6 +69,9 @@ void gameLoop(SDL_Renderer* const renderer) {
 	struct Ball ball;
 	int justScored = 0;
 
+	struct ScoreRenderer srend;
+	scoreRenderer_init(&srend, renderer, WINDOW_WIDTH, WINDOW_HEIGHT);
+
 	player_init(1, &player1, WINDOW_WIDTH, WINDOW_HEIGHT);
 	player_init(0, &player2, WINDOW_WIDTH, WINDOW_HEIGHT);
 	ball_init(&ball, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -109,6 +113,9 @@ void gameLoop(SDL_Renderer* const renderer) {
 		player_render(&player1, renderer);
 		player_render(&player2, renderer);
 		ball_render(&ball, renderer);
+
+		scoreRenderer_render(&srend, renderer, 1, player1.score);
+		scoreRenderer_render(&srend, renderer, 0, player2.score);
 
 		// update screen
 		SDL_RenderPresent(renderer);

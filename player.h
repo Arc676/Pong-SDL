@@ -13,7 +13,7 @@ struct Player {
 	int x;
 	int y;
 	int speed;
-	int score;
+	unsigned score;
 	SDL_Color color;
 	SDL_Rect rect;
 };

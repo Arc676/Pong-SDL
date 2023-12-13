@@ -133,7 +133,7 @@ CheckOptions:
   bugprone-signal-handler.AsyncSafeFunctionSet: POSIX
   readability-suspicious-call-argument.Substring: 'true'
   bugprone-easily-swappable-parameters.ModelImplicitConversions: 'true'
-  readability-identifier-length.IgnoredVariableNames: ''
+  readability-identifier-length.IgnoredVariableNames: '^[ijkxyz]$'
   readability-magic-numbers.IgnoreAllFloatingPointValues: 'false'
   performance-move-const-arg.CheckMoveToConstRef: 'true'
   readability-identifier-length.MinimumVariableNameLength: '3'

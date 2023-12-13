@@ -2,9 +2,9 @@
 CC=gcc
 
 CFLAGS=`sdl2-config --libs --cflags` -Wall -lSDL2_image -lm
-HDRS=player.h ball.h util.h
+HDRS=player.h ball.h util.h score.h
 
-SRCS=main.c player.c ball.c util.c
+SRCS=main.c player.c ball.c util.c score.c
 ODIR=obj
 OBJS=$(patsubst %.c, $(ODIR)/%.o, $(SRCS))
 
