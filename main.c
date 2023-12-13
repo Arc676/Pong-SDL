@@ -8,6 +8,7 @@
 #include <SDL2/SDL_video.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #include "ball.h"
@@ -15,6 +16,50 @@
 
 const int WINDOW_WIDTH = 1000, WINDOW_HEIGHT = 1000;
 const int FRAME_DELAY = 1000 / 60;
+
+struct InputState {
+	int up1, down1, up2, down2;
+	int nextRally;
+	int exitGame;
+};
+
+void pollInput(struct InputState* const state) {
+	SDL_Event event;
+
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
+			case SDL_KEYUP: {
+				SDL_Scancode key = event.key.keysym.scancode;
+				if (key == SDL_SCANCODE_Q) {
+					state->exitGame = 1;
+				} else if (key == SDL_SCANCODE_W) {
+					state->up1 = 0;
+				} else if (key == SDL_SCANCODE_S) {
+					state->down1 = 0;
+				} else if (key == SDL_SCANCODE_UP) {
+					state->up2 = 0;
+				} else if (key == SDL_SCANCODE_DOWN) {
+					state->down2 = 0;
+				} else if (key == SDL_SCANCODE_SPACE) {
+					state->nextRally = 1;
+				}
+				break;
+			}
+			case SDL_KEYDOWN: {
+				SDL_Scancode key = event.key.keysym.scancode;
+				if (key == SDL_SCANCODE_W) {
+					state->up1 = 1;
+				} else if (key == SDL_SCANCODE_S) {
+					state->down1 = 1;
+				} else if (key == SDL_SCANCODE_UP) {
+					state->up2 = 1;
+				} else if (key == SDL_SCANCODE_DOWN) {
+					state->down2 = 1;
+				}
+			}
+		}
+	}
+}
 
 int main() {
 	// returns zero on success else non-zero
@@ -34,74 +79,38 @@ int main() {
 	// game elements
 	struct Player player1, player2;
 	struct Ball ball;
-	int waitToStart = 0, justScored = 0;
+	int justScored = 0;
 
 	player_init(1, &player1, WINDOW_WIDTH, WINDOW_HEIGHT);
 	player_init(0, &player2, WINDOW_WIDTH, WINDOW_HEIGHT);
 	ball_init(&ball, WINDOW_WIDTH, WINDOW_HEIGHT);
 
+	// input state
+	struct InputState state;
+	memset(&state, 0, sizeof(struct InputState));
+
 	// render loop
-	int exitGame = 0;
-	while (!exitGame) {
-		SDL_Event event;
-
-		// controls
-		static int up1 = 0, down1 = 0;
-		static int up2 = 0, down2 = 0;
-
+	while (!state.exitGame) {
 		// event polling
-		while (SDL_PollEvent(&event)) {
-			switch (event.type) {
-				case SDL_KEYUP: {
-					SDL_Scancode key = event.key.keysym.scancode;
-					if (key == SDL_SCANCODE_Q) {
-						exitGame = 1;
-					} else if (key == SDL_SCANCODE_W) {
-						up1 = 0;
-					} else if (key == SDL_SCANCODE_S) {
-						down1 = 0;
-					} else if (key == SDL_SCANCODE_UP) {
-						up2 = 0;
-					} else if (key == SDL_SCANCODE_DOWN) {
-						down2 = 0;
-					} else if (key == SDL_SCANCODE_SPACE) {
-						waitToStart = 0;
-					}
-					break;
-				}
-				case SDL_KEYDOWN: {
-					SDL_Scancode key = event.key.keysym.scancode;
-					if (key == SDL_SCANCODE_W) {
-						up1 = 1;
-					} else if (key == SDL_SCANCODE_S) {
-						down1 = 1;
-					} else if (key == SDL_SCANCODE_UP) {
-						up2 = 1;
-					} else if (key == SDL_SCANCODE_DOWN) {
-						down2 = 1;
-					}
-				}
-			}
-		}
+		pollInput(&state);
 
 		// entity updates
-		if (!waitToStart) {
-			if (justScored) {
+		if (justScored) {
+			if (state.nextRally) {
 				ball_init(&ball, WINDOW_WIDTH, WINDOW_HEIGHT);
 				justScored = 0;
-			} else {
-				player_update(&player1, up1, down1);
-				player_update(&player2, up2, down2);
-				enum BallResult res = ball_update(&ball, &player1, &player2);
-				if (res != NoPoints) {
-					if (res == P1Scores) {
-						player1.score++;
-					} else {
-						player2.score++;
-					}
-					justScored  = 1;
-					waitToStart = 1;
+			}
+		} else {
+			player_update(&player1, state.up1, state.down1);
+			player_update(&player2, state.up2, state.down2);
+			enum BallResult res = ball_update(&ball, &player1, &player2);
+			if (res != NoPoints) {
+				if (res == P1Scores) {
+					player1.score++;
+				} else {
+					player2.score++;
 				}
+				justScored = 1;
 			}
 		}
 
