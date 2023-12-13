@@ -17,15 +17,23 @@ struct Ball {
 	int vx;
 	int vy;
 
+	int fieldWidth;
 	int fieldHeight;
 
 	SDL_Color color;
 	SDL_Rect rect;
 };
 
+enum BallResult {
+	P1Scores,
+	P2Scores,
+	NoPoints
+};
+
 void ball_init(struct Ball*, int, int);
 
-void ball_update(struct Ball*, const struct Player*, const struct Player*);
+enum BallResult ball_update(struct Ball*, const struct Player*,
+                            const struct Player*);
 
 void ball_render(const struct Ball*, SDL_Renderer*);
 

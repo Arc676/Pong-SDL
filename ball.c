@@ -18,6 +18,7 @@ void ball_init(struct Ball* ball, int width, int height) {
 	// NOLINTNEXTLINE(concurrency-mt-unsafe)
 	ball->vy = rand() % (MAX_BALL_SPEED - MIN_BALL_SPEED) + MIN_BALL_SPEED;
 
+	ball->fieldWidth  = width;
 	ball->fieldHeight = height;
 
 	// NOLINTNEXTLINE(readability-magic-numbers)
@@ -26,8 +27,8 @@ void ball_init(struct Ball* ball, int width, int height) {
 }
 
 // NOLINTBEGIN(readability-identifier-length)
-void ball_update(struct Ball* ball, const struct Player* const p1,
-                 const struct Player* const p2) {
+enum BallResult ball_update(struct Ball* ball, const struct Player* const p1,
+                            const struct Player* const p2) {
 	// NOLINTEND(readability-identifier-length)
 	ball->x += ball->vx;
 	ball->y += ball->vy;
@@ -44,6 +45,14 @@ void ball_update(struct Ball* ball, const struct Player* const p1,
 		ball->x += 2 * ball->vx;
 	}
 	initRect(&ball->rect, ball->x, ball->y, BALL_SIZE, BALL_SIZE);
+
+	if (ball->x < 0) {
+		return P2Scores;
+	}
+	if (ball->x > ball->fieldWidth - BALL_SIZE) {
+		return P1Scores;
+	}
+	return NoPoints;
 }
 
 void ball_render(const struct Ball* const ball, SDL_Renderer* const renderer) {

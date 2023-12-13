@@ -32,8 +32,9 @@ int main() {
 	SDL_Renderer* renderer = SDL_CreateRenderer(win, -1, flags);
 
 	// game elements
-	struct Player player1, player2;  // NOLINT(readability-isolate-declaration)
+	struct Player player1, player2;
 	struct Ball ball;
+	int waitToStart = 0, justScored = 0;
 
 	player_init(1, &player1, WINDOW_WIDTH, WINDOW_HEIGHT);
 	player_init(0, &player2, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -63,6 +64,8 @@ int main() {
 						up2 = 0;
 					} else if (key == SDL_SCANCODE_DOWN) {
 						down2 = 0;
+					} else if (key == SDL_SCANCODE_SPACE) {
+						waitToStart = 0;
 					}
 					break;
 				}
@@ -82,9 +85,25 @@ int main() {
 		}
 
 		// entity updates
-		player_update(&player1, up1, down1);
-		player_update(&player2, up2, down2);
-		ball_update(&ball, &player1, &player2);
+		if (!waitToStart) {
+			if (justScored) {
+				ball_init(&ball, WINDOW_WIDTH, WINDOW_HEIGHT);
+				justScored = 0;
+			} else {
+				player_update(&player1, up1, down1);
+				player_update(&player2, up2, down2);
+				enum BallResult res = ball_update(&ball, &player1, &player2);
+				if (res != NoPoints) {
+					if (res == P1Scores) {
+						player1.score++;
+					} else {
+						player2.score++;
+					}
+					justScored  = 1;
+					waitToStart = 1;
+				}
+			}
+		}
 
 		// rendering
 		// NOLINTNEXTLINE(readability-magic-numbers)
