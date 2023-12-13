@@ -11,7 +11,7 @@ const int PLAYER_WIDTH  = 10;
 void player_init(int first, struct Player* const player, int width,
                  int height) {
 	player->score = 0;
-	player->speed = 1;
+	player->speed = 3;
 	player->x     = first ? EDGE_MARGIN : width - EDGE_MARGIN - PLAYER_WIDTH;
 	player->y     = height / 2 - PLAYER_HEIGHT / 2;
 

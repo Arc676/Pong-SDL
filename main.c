@@ -25,6 +25,7 @@ struct InputState {
 
 void pollInput(struct InputState* const state) {
 	SDL_Event event;
+	state->nextRally = 0;
 
 	while (SDL_PollEvent(&event)) {
 		switch (event.type) {
