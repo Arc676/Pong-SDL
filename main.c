@@ -4,6 +4,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_scancode.h>
 #include <SDL2/SDL_timer.h>
+#include <SDL2/SDL_video.h>
 
 const int WINDOW_WIDTH = 1000, WINDOW_HEIGHT = 1000;
 
@@ -33,6 +34,10 @@ int main() {
 			}
 		}
 	}
+
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(win);
+	SDL_Quit();
 
 	return 0;
 }
