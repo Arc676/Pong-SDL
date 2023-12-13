@@ -61,21 +61,7 @@ void pollInput(struct InputState* const state) {
 	}
 }
 
-int main() {
-	// returns zero on success else non-zero
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		printf("error initializing SDL: %s\n", SDL_GetError());
-	}
-
-	srand(time(NULL));
-
-	SDL_Window* win =
-		SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-	                     WINDOW_WIDTH, WINDOW_HEIGHT, 0);
-
-	unsigned flags         = SDL_RENDERER_ACCELERATED;
-	SDL_Renderer* renderer = SDL_CreateRenderer(win, -1, flags);
-
+void gameLoop(SDL_Renderer* const renderer) {
 	// game elements
 	struct Player player1, player2;
 	struct Ball ball;
@@ -129,6 +115,24 @@ int main() {
 		// 60 fps
 		SDL_Delay(FRAME_DELAY);
 	}
+}
+
+int main() {
+	// returns zero on success else non-zero
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+		printf("error initializing SDL: %s\n", SDL_GetError());
+	}
+
+	srand(time(NULL));
+
+	SDL_Window* win =
+		SDL_CreateWindow("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+	                     WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+
+	unsigned flags         = SDL_RENDERER_ACCELERATED;
+	SDL_Renderer* renderer = SDL_CreateRenderer(win, -1, flags);
+
+	gameLoop(renderer);
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(win);
