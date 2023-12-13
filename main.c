@@ -10,6 +10,7 @@
 #include "player.h"
 
 const int WINDOW_WIDTH = 1000, WINDOW_HEIGHT = 1000;
+const int FRAME_DELAY = 1000 / 60;
 
 int main() {
 	// returns zero on success else non-zero
@@ -47,6 +48,7 @@ int main() {
 		}
 
 		// rendering
+		// NOLINTNEXTLINE(readability-magic-numbers)
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
 
@@ -58,7 +60,7 @@ int main() {
 		SDL_RenderPresent(renderer);
 
 		// 60 fps
-		SDL_Delay(1000 / 60);
+		SDL_Delay(FRAME_DELAY);
 	}
 
 	SDL_DestroyRenderer(renderer);

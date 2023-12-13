@@ -4,13 +4,22 @@
 
 #include "util.h"
 
+const int EDGE_MARGIN   = 10;
+const int PLAYER_HEIGHT = 40;
+const int PLAYER_WIDTH  = 10;
+
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 void player_init(int first, struct Player* const player, int width,
                  int height) {
 	player->score = 0;
 	player->speed = 1;
-	player->y     = height / 2 + 5;
+	player->y     = height / 2 - PLAYER_HEIGHT / 2;
+
+	// NOLINTNEXTLINE(readability-magic-numbers)
 	initColor(&player->color, 255, 255, 255, 255);
-	initRect(&player->rect, first ? 10 : width - 10, player->y, 10, 40);
+	initRect(&player->rect,
+	         first ? EDGE_MARGIN : width - EDGE_MARGIN - PLAYER_WIDTH,
+	         player->y, PLAYER_WIDTH, PLAYER_HEIGHT);
 }
 
 void player_render(const struct Player* const player,

@@ -5,6 +5,10 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
+extern const int EDGE_MARGIN;
+extern const int PLAYER_HEIGHT;
+extern const int PLAYER_WIDTH;
+
 struct Player {
 	int y;
 	int speed;

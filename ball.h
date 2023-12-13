@@ -5,6 +5,8 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
+extern const int BALL_SIZE;
+
 struct Player;
 
 struct Ball {

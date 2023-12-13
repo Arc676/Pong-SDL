@@ -4,12 +4,17 @@
 
 #include "util.h"
 
+const int BALL_SIZE = 10;
+
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 void ball_init(struct Ball* ball, int width, int height) {
-	ball->x     = width / 2 + 5;
-	ball->y     = height / 2 + 5;
+	ball->x     = width / 2 + BALL_SIZE / 2;
+	ball->y     = height / 2 + BALL_SIZE / 2;
 	ball->speed = 1;
+
+	// NOLINTNEXTLINE(readability-magic-numbers)
 	initColor(&ball->color, 255, 255, 255, 255);
-	initRect(&ball->rect, ball->x, ball->y, 10, 10);
+	initRect(&ball->rect, ball->x, ball->y, BALL_SIZE, BALL_SIZE);
 }
 
 void ball_render(const struct Ball* const ball, SDL_Renderer* const renderer) {
