@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 
@@ -8,6 +9,7 @@ struct Player {
 	int y;
 	int speed;
 	int score;
+	SDL_Color color;
 	SDL_Rect rect;
 };
 
