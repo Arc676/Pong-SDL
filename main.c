@@ -23,11 +23,13 @@ struct InputState {
 	int up1, down1, up2, down2;
 	int nextRally;
 	int exitGame;
+	int pause;
 };
 
 void pollInput(struct InputState* const state) {
 	SDL_Event event;
 	state->nextRally = 0;
+	state->pause     = 0;
 
 	while (SDL_PollEvent(&event)) {
 		imguiProcessEvent(&event);
@@ -46,6 +48,8 @@ void pollInput(struct InputState* const state) {
 					state->down2 = 0;
 				} else if (key == SDL_SCANCODE_SPACE) {
 					state->nextRally = 1;
+				} else if (key == SDL_SCANCODE_ESCAPE) {
+					state->pause = 1;
 				}
 				break;
 			}
@@ -78,25 +82,32 @@ void gameLoop(SDL_Renderer* const renderer) {
 	player_init(0, &player2, WINDOW_WIDTH, WINDOW_HEIGHT);
 	ball_init(&ball, WINDOW_WIDTH, WINDOW_HEIGHT);
 
+	// UI
+	struct UIState uiState;
+	ui_init(&uiState, &player1, &player2);
+
 	// input state
-	struct InputState state;
+	struct InputState input;
 	// NOLINTNEXTLINE (memset_s not in gcc)
-	memset(&state, 0, sizeof(struct InputState));
+	memset(&input, 0, sizeof(struct InputState));
 
 	// render loop
-	while (!state.exitGame) {
+	while (!input.exitGame) {
 		// event polling
-		pollInput(&state);
+		pollInput(&input);
+		if (input.pause) {
+			uiState.paused = !uiState.paused;
+		}
 
 		// entity updates
 		if (justScored) {
-			if (state.nextRally) {
+			if (input.nextRally) {
 				ball_init(&ball, WINDOW_WIDTH, WINDOW_HEIGHT);
 				justScored = 0;
 			}
-		} else {
-			player_update(&player1, state.up1, state.down1);
-			player_update(&player2, state.up2, state.down2);
+		} else if (!uiState.paused) {
+			player_update(&player1, input.up1, input.down1);
+			player_update(&player2, input.up2, input.down2);
 			enum BallResult res = ball_update(&ball, &player1, &player2);
 			if (res != NoPoints) {
 				if (res == P1Scores) {
@@ -109,7 +120,7 @@ void gameLoop(SDL_Renderer* const renderer) {
 		}
 
 		// rendering
-		renderUI();
+		renderUI(&uiState);
 
 		// NOLINTNEXTLINE(readability-magic-numbers)
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
