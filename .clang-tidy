@@ -1,5 +1,5 @@
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,clang-analyzer-*,concurrency-*,misc-*,performance-*,porability-*,readability-*,-readability-isolate-declaration'
+Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,clang-analyzer-*,concurrency-*,misc-*,performance-*,porability-*,readability-*,-readability-isolate-declaration,-readability-identifier-length'
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
@@ -41,7 +41,6 @@ CheckOptions:
   bugprone-easily-swappable-parameters.QualifiersMix: 'false'
   misc-const-correctness.WarnPointersAsValues: 'false'
   bugprone-suspicious-string-compare.WarnOnImplicitComparison: 'true'
-  readability-identifier-length.MinimumParameterNameLength: '3'
   bugprone-argument-comment.CommentNullPtrs: '0'
   bugprone-narrowing-conversions.WarnOnIntegerToFloatingPointNarrowingConversion: 'true'
   bugprone-easily-swappable-parameters.SuppressParametersUsedTogether: 'true'
@@ -123,7 +122,6 @@ CheckOptions:
   performance-inefficient-string-concatenation.StrictMode: 'false'
   readability-redundant-declaration.IgnoreMacros: 'true'
   concurrency-mt-unsafe.FunctionSet: any
-  readability-identifier-length.IgnoredExceptionVariableNames: '^[e]$'
   google-readability-braces-around-statements.ShortStatementLines: '1'
   bugprone-reserved-identifier.AllowedIdentifiers: ''
   bugprone-easily-swappable-parameters.IgnoredParameterTypeSuffixes: 'bool;Bool;_Bool;it;It;iterator;Iterator;inputit;InputIt;forwardit;ForwardIt;bidirit;BidirIt;constiterator;const_iterator;Const_Iterator;Constiterator;ConstIterator;RandomIt;randomit;random_iterator;ReverseIt;reverse_iterator;reverse_const_iterator;ConstReverseIterator;Const_Reverse_Iterator;const_reverse_iterator;Constreverseiterator;constreverseiterator'
@@ -133,17 +131,14 @@ CheckOptions:
   bugprone-signal-handler.AsyncSafeFunctionSet: POSIX
   readability-suspicious-call-argument.Substring: 'true'
   bugprone-easily-swappable-parameters.ModelImplicitConversions: 'true'
-  readability-identifier-length.IgnoredVariableNames: '^[ijkxyz]$'
   readability-magic-numbers.IgnoreAllFloatingPointValues: 'false'
   performance-move-const-arg.CheckMoveToConstRef: 'true'
-  readability-identifier-length.MinimumVariableNameLength: '3'
   readability-suspicious-call-argument.Abbreviations: 'arr=array;cnt=count;idx=index;src=source;stmt=statement;cpy=copy;dest=destination;dist=distancedst=distance;ptr=pointer;wdth=width;str=string;ln=line;srv=server;attr=attribute;ref=reference;buf=buffer;col=column;nr=number;vec=vector;len=length;elem=element;val=value;i=index;var=variable;hght=height;cl=client;num=number;pos=position;lst=list;addr=address'
   bugprone-misplaced-widening-cast.CheckImplicitCasts: 'false'
   readability-uppercase-literal-suffix.NewSuffixes: ''
   modernize-loop-convert.MinConfidence: reasonable
   performance-unnecessary-value-param.AllowedTypes: ''
   readability-uniqueptr-delete-release.PreferResetCall: 'false'
-  readability-identifier-length.MinimumExceptionNameLength: '2'
   misc-definitions-in-headers.UseHeaderFileExtension: 'true'
   google-readability-namespace-comments.SpacesBeforeComments: '2'
   readability-function-cognitive-complexity.Threshold: '25'
@@ -164,7 +159,6 @@ CheckOptions:
   llvm-qualified-auto.AddConstToQualified: 'false'
   bugprone-signed-char-misuse.DiagnoseSignedUnsignedCharComparisons: 'true'
   readability-identifier-naming.IgnoreMainLikeFunctions: 'false'
-  readability-identifier-length.IgnoredParameterNames: '^[n]$'
   readability-implicit-bool-conversion.AllowIntegerConditions: 'false'
   misc-use-anonymous-namespace.HeaderFileExtensions: ';h;hh;hpp;hxx'
   google-readability-function-size.StatementThreshold: '800'
@@ -176,8 +170,6 @@ CheckOptions:
   readability-suspicious-call-argument.Dice: 'true'
   readability-suspicious-call-argument.Abbreviation: 'true'
   misc-throw-by-value-catch-by-reference.WarnOnLargeObjects: 'false'
-  readability-identifier-length.IgnoredLoopCounterNames: '^[ijk_]$'
-  readability-identifier-length.MinimumLoopCounterNameLength: '2'
   bugprone-dangling-handle.HandleClasses: 'std::basic_string_view;std::experimental::basic_string_view'
   readability-magic-numbers.IgnoredIntegerValues: '1;2;3;4;'
   performance-inefficient-vector-operation.VectorLikeClasses: '::std::vector'

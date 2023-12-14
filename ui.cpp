@@ -8,7 +8,6 @@ void initializeUI(SDL_Window* const window, SDL_Renderer* const renderer) {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 
-	// NOLINTNEXTLINE(readability-identifier-length)
 	ImGuiIO& io = ImGui::GetIO();
 	io.ConfigFlags |=
 		ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NavEnableGamepad;

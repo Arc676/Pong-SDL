@@ -31,10 +31,8 @@ void ball_init(struct Ball* ball, int width, int height) {
 	initRect(&ball->rect, ball->x, ball->y, BALL_SIZE, BALL_SIZE);
 }
 
-// NOLINTBEGIN(readability-identifier-length)
 enum BallResult ball_update(struct Ball* ball, const struct Player* const p1,
                             const struct Player* const p2) {
-	// NOLINTEND(readability-identifier-length)
 	ball->x += ball->vx;
 	ball->y += ball->vy;
 

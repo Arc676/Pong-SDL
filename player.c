@@ -20,7 +20,6 @@ void player_init(int first, struct Player* const player, int width,
 	initRect(&player->rect, player->x, player->y, PLAYER_WIDTH, PLAYER_HEIGHT);
 }
 
-// NOLINTNEXTLINE(readability-identifier-length)
 void player_update(struct Player* const player, int up, int down) {
 	if (up) {
 		player->y -= player->speed;
