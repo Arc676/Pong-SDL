@@ -34,17 +34,19 @@ makedir:
 $(ODIR)/ui.o: ui.cpp ui.h makedir
 	$(CPP) $(IMGUI_FLAGS) -c ui.cpp -o $@
 	
-imgui:
-	$(CPP) -c $(IMGUI_FLAGS) $(patsubst %.cpp, imgui/%.cpp, $(IMGUI_SRC))
-	mv imgui*.o $(ODIR)
+$(ODIR)/imgui_impl_%.o: imgui/backends/imgui_impl_%.cpp
+	$(CPP) -c $(IMGUI_FLAGS) -o $@ $<
+	
+$(ODIR)/imgui_%.o: imgui/imgui_%.cpp
+	$(CPP) -c $(IMGUI_FLAGS) -o $@ $<
 	
 $(ODIR)/%.o: %.c $(HDRS) makedir
 	$(CC) $(CFLAGS) -c -o $@ $<
  
-$(EXEC): $(OBJS) $(HDRS) imgui $(ODIR)/ui.o Makefile
+$(EXEC): $(OBJS) $(HDRS) $(IMGUI_OBJ) $(ODIR)/ui.o Makefile
 	$(CPP) -o $@ $(OBJS) $(IMGUI_OBJ) $(ODIR)/ui.o $(CLIB) $(CPPLIB) $(SDL)
 
 clean:
 	rm -f $(EXEC) $(OBJS) $(IMGUI_OBJ)
 
-.PHONY: all clean makedir imgui
+.PHONY: all clean makedir
