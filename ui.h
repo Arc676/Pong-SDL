@@ -25,6 +25,11 @@ struct UIState {
 	// pause state
 	enum PauseState pauseMenu;
 
+	// colors
+	float bColor[3];
+	float p1Color[3];
+	float p2Color[3];
+
 	// game elements
 	struct Ball* ball;
 	struct Player* player1;

@@ -1,5 +1,8 @@
 #include "ui.h"
 
+#include <cstdio>
+
+#include "SDL_pixels.h"
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
@@ -58,8 +61,24 @@ void pauseMenu(struct UIState* const state) {
 	ImGui::End();
 }
 
+void colorPicker(const char* const label, float* const input,
+                 SDL_Color* const output) {
+	ImGui::ColorPicker3(label, input);
+	// NOLINTBEGIN(readability-magic-numbers)
+	output->r = (Uint8)(input[0] * 255);
+	output->g = (Uint8)(input[1] * 255);
+	output->b = (Uint8)(input[2] * 255);
+	// NOLINTEND(readability-magic-numbers)
+}
+
 void settingsPanel(struct UIState* const state) {
 	ImGui::Begin("Settings");
+
+	if (ImGui::CollapsingHeader("Colors")) {
+		colorPicker("Ball Color", state->bColor, &state->ball->color);
+		colorPicker("Player 1 Color", state->p1Color, &state->player1->color);
+		colorPicker("Player 2 Color", state->p2Color, &state->player2->color);
+	}
 
 	if (ImGui::CollapsingHeader("Paddle Speeds")) {
 		ImGui::InputInt("Player 1", &state->player1->speed);
