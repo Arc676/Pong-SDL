@@ -11,13 +11,16 @@ const int PLAYER_WIDTH  = 10;
 void player_init(int first, struct Player* const player, int width,
                  int height) {
 	player->score = 0;
-	player->speed = 3;
-	player->x     = first ? EDGE_MARGIN : width - EDGE_MARGIN - PLAYER_WIDTH;
-	player->y     = height / 2 - PLAYER_HEIGHT / 2;
+
+	player->speed  = 3;
+	player->height = PLAYER_HEIGHT;
+
+	player->x = first ? EDGE_MARGIN : width - EDGE_MARGIN - PLAYER_WIDTH;
+	player->y = height / 2 - PLAYER_HEIGHT / 2;
 
 	// NOLINTNEXTLINE(readability-magic-numbers)
 	initColor(&player->color, 255, 255, 255, 255);
-	initRect(&player->rect, player->x, player->y, PLAYER_WIDTH, PLAYER_HEIGHT);
+	initRect(&player->rect, player->x, player->y, PLAYER_WIDTH, player->height);
 }
 
 void player_update(struct Player* const player, int up, int down) {
@@ -27,7 +30,7 @@ void player_update(struct Player* const player, int up, int down) {
 	if (down) {
 		player->y += player->speed;
 	}
-	initRect(&player->rect, player->x, player->y, PLAYER_WIDTH, PLAYER_HEIGHT);
+	initRect(&player->rect, player->x, player->y, PLAYER_WIDTH, player->height);
 }
 
 void player_render(const struct Player* const player,

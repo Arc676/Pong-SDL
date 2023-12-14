@@ -92,6 +92,11 @@ void settingsPanel(struct UIState* const state) {
 		colorPicker("Player 2 Color", state->p2Color, &state->player2->color);
 	}
 
+	if (ImGui::CollapsingHeader("Paddle Sizes")) {
+		ImGui::InputInt("Player 1", &state->player1->height);
+		ImGui::InputInt("Player 2", &state->player2->height);
+	}
+
 	if (ImGui::CollapsingHeader("Paddle Speeds")) {
 		ImGui::InputInt("Player 1", &state->player1->speed);
 		ImGui::InputInt("Player 2", &state->player2->speed);

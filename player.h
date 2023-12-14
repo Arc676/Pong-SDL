@@ -12,8 +12,12 @@ extern const int PLAYER_WIDTH;
 struct Player {
 	int x;
 	int y;
+
 	int speed;
+	int height;
+
 	unsigned score;
+
 	SDL_Color color;
 	SDL_Rect rect;
 };
