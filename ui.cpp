@@ -4,6 +4,10 @@
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
 
+// Booleans for C
+#define TRUE  1
+#define FALSE 0
+
 void ui_init(struct UIState* const state, struct Player* const p1,
              struct Player* const p2) {
 	memset(state, 0, sizeof(struct UIState));
@@ -33,15 +37,21 @@ void renderUI(struct UIState* const state) {
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
-	if ((bool)state->showMainMenu) {
+	if (!(bool)state->gameInProgress) {
 		ImGui::Begin("Pong SDL");
+		if (ImGui::Button("Start Game")) {
+			state->gameInProgress = TRUE;
+		}
+		if (ImGui::Button("Quit Game")) {
+			state->quitPressed = TRUE;
+		}
 		ImGui::End();
 	}
 
 	if ((bool)state->paused) {
 		ImGui::Begin("Paused");
 		if (ImGui::Button("Resume Game")) {
-			state->paused = 0;
+			state->paused = FALSE;
 		}
 		ImGui::End();
 	}

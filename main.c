@@ -148,6 +148,11 @@ void gameLoop(SDL_Renderer* const renderer) {
 		// update screen
 		SDL_RenderPresent(renderer);
 
+		// UI related updates
+		if (uiState.quitPressed) {
+			input.exitGame = 1;
+		}
+
 		// 60 fps
 		SDL_Delay(FRAME_DELAY);
 	}
