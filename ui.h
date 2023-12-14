@@ -10,13 +10,19 @@
 extern "C" {
 #endif
 
+enum PauseState : int {
+	Unpaused = 0,
+	Paused,
+	Settings,
+};
+
 struct UIState {
 	// main menu state
 	int gameInProgress;
 	int quitPressed;
 
-	// pause menu
-	int paused;
+	// pause state
+	enum PauseState pauseMenu;
 
 	// game elements
 	struct Player* player1;

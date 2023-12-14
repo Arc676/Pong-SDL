@@ -32,28 +32,64 @@ void imguiProcessEvent(const SDL_Event* const event) {
 	ImGui_ImplSDL2_ProcessEvent(event);
 }
 
+void mainMenu(struct UIState* const state) {
+	ImGui::Begin("Pong SDL");
+	if (ImGui::Button("Start Game")) {
+		state->gameInProgress = TRUE;
+	}
+	if (ImGui::Button("Settings")) {
+		state->pauseMenu = Settings;
+	}
+	if (ImGui::Button("Quit Game")) {
+		state->quitPressed = TRUE;
+	}
+	ImGui::End();
+}
+
+void pauseMenu(struct UIState* const state) {
+	ImGui::Begin("Paused");
+	if (ImGui::Button("Resume Game")) {
+		state->pauseMenu = Unpaused;
+	}
+	if (ImGui::Button("Settings")) {
+		state->pauseMenu = Settings;
+	}
+	ImGui::End();
+}
+
+void settingsPanel(struct UIState* const state) {
+	ImGui::Begin("Settings");
+
+	if (ImGui::CollapsingHeader("Paddle Speeds")) {
+		ImGui::InputInt("Player 1", &state->player1->speed);
+		ImGui::InputInt("Player 2", &state->player2->speed);
+	}
+
+	if (ImGui::Button("Close")) {
+		state->pauseMenu = (bool)state->gameInProgress ? Paused : Unpaused;
+	}
+
+	ImGui::End();
+}
+
 void renderUI(struct UIState* const state) {
 	ImGui_ImplSDLRenderer2_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 
 	if (!(bool)state->gameInProgress) {
-		ImGui::Begin("Pong SDL");
-		if (ImGui::Button("Start Game")) {
-			state->gameInProgress = TRUE;
-		}
-		if (ImGui::Button("Quit Game")) {
-			state->quitPressed = TRUE;
-		}
-		ImGui::End();
+		mainMenu(state);
 	}
 
-	if ((bool)state->paused) {
-		ImGui::Begin("Paused");
-		if (ImGui::Button("Resume Game")) {
-			state->paused = FALSE;
-		}
-		ImGui::End();
+	switch (state->pauseMenu) {
+		case Paused:
+			pauseMenu(state);
+			break;
+		case Settings:
+			settingsPanel(state);
+			break;
+		default:
+			break;
 	}
 
 	ImGui::Render();

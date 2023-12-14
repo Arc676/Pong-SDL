@@ -73,8 +73,8 @@ void gameUpdate(const struct InputState* const input,
                 struct UIState* const uiState, int* const justScored,
                 struct Player* const player1, struct Player* const player2,
                 struct Ball* const ball) {
-	if (input->pause) {
-		uiState->paused = !uiState->paused;
+	if (input->pause && uiState->pauseMenu != Settings) {
+		uiState->pauseMenu = uiState->pauseMenu == Paused ? Unpaused : Paused;
 	}
 
 	// entity updates
@@ -83,7 +83,7 @@ void gameUpdate(const struct InputState* const input,
 			ball_init(ball, WINDOW_WIDTH, WINDOW_HEIGHT);
 			*justScored = 0;
 		}
-	} else if (!uiState->paused) {
+	} else if (uiState->pauseMenu == Unpaused) {
 		player_update(player1, input->up1, input->down1);
 		player_update(player2, input->up2, input->down2);
 		enum BallResult res = ball_update(ball, player1, player2);
