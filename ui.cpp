@@ -8,10 +8,11 @@
 #define TRUE  1
 #define FALSE 0
 
-void ui_init(struct UIState* const state, struct Player* const p1,
-             struct Player* const p2) {
+void ui_init(struct UIState* const state, struct Ball* const ball,
+             struct Player* const p1, struct Player* const p2) {
 	memset(state, 0, sizeof(struct UIState));
 
+	state->ball    = ball;
 	state->player1 = p1;
 	state->player2 = p2;
 }

@@ -113,7 +113,7 @@ void gameLoop(SDL_Renderer* const renderer) {
 
 	// UI
 	struct UIState uiState;
-	ui_init(&uiState, &player1, &player2);
+	ui_init(&uiState, &ball, &player1, &player2);
 
 	// input state
 	struct InputState input;

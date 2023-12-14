@@ -4,6 +4,7 @@
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_render.h>
 
+#include "ball.h"
 #include "player.h"
 
 #ifdef __cplusplus
@@ -25,11 +26,12 @@ struct UIState {
 	enum PauseState pauseMenu;
 
 	// game elements
+	struct Ball* ball;
 	struct Player* player1;
 	struct Player* player2;
 };
 
-void ui_init(struct UIState*, struct Player*, struct Player*);
+void ui_init(struct UIState*, struct Ball*, struct Player*, struct Player*);
 
 void initializeUI(SDL_Window*, SDL_Renderer*);
 
