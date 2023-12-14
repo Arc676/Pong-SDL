@@ -80,6 +80,7 @@ void gameLoop(SDL_Renderer* const renderer) {
 
 	// input state
 	struct InputState state;
+	// NOLINTNEXTLINE (memset_s not in gcc)
 	memset(&state, 0, sizeof(struct InputState));
 
 	// render loop
