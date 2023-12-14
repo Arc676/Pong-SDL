@@ -17,7 +17,7 @@ enum PauseState : int {
 	Settings,
 };
 
-struct UIState {
+struct GameState {
 	// main menu state
 	int gameInProgress;
 	int quitPressed;
@@ -36,13 +36,13 @@ struct UIState {
 	struct Player* player2;
 };
 
-void ui_init(struct UIState*, struct Ball*, struct Player*, struct Player*);
+void ui_init(struct GameState*, struct Ball*, struct Player*, struct Player*);
 
 void initializeUI(SDL_Window*, SDL_Renderer*);
 
 void imguiProcessEvent(const SDL_Event*);
 
-void renderUI(struct UIState*);
+void renderUI(struct GameState*);
 
 void drawUI();
 

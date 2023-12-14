@@ -19,9 +19,9 @@ void loadColor(float* output, const SDL_Color* const color) {
 	// NOLINTEND(readability-magic-numbers)
 }
 
-void ui_init(struct UIState* const state, struct Ball* const ball,
+void ui_init(struct GameState* const state, struct Ball* const ball,
              struct Player* const p1, struct Player* const p2) {
-	memset(state, 0, sizeof(struct UIState));
+	memset(state, 0, sizeof(struct GameState));
 
 	for (int i = 0; i < 3; i++) {
 		state->bColor[i] = state->p1Color[i] = state->p2Color[i] = 1;
@@ -48,7 +48,7 @@ void imguiProcessEvent(const SDL_Event* const event) {
 	ImGui_ImplSDL2_ProcessEvent(event);
 }
 
-void mainMenu(struct UIState* const state) {
+void mainMenu(struct GameState* const state) {
 	ImGui::Begin("Pong SDL");
 	if (ImGui::Button("Start Game")) {
 		state->gameInProgress = TRUE;
@@ -62,7 +62,7 @@ void mainMenu(struct UIState* const state) {
 	ImGui::End();
 }
 
-void pauseMenu(struct UIState* const state) {
+void pauseMenu(struct GameState* const state) {
 	ImGui::Begin("Paused");
 	if (ImGui::Button("Resume Game")) {
 		state->pauseMenu = Unpaused;
@@ -83,7 +83,7 @@ void colorPicker(const char* const label, float* const input,
 	// NOLINTEND(readability-magic-numbers)
 }
 
-void settingsPanel(struct UIState* const state) {
+void settingsPanel(struct GameState* const state) {
 	ImGui::Begin("Settings");
 
 	if (ImGui::CollapsingHeader("Colors")) {
@@ -109,7 +109,7 @@ void settingsPanel(struct UIState* const state) {
 	ImGui::End();
 }
 
-void renderUI(struct UIState* const state) {
+void renderUI(struct GameState* const state) {
 	ImGui_ImplSDLRenderer2_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();

@@ -70,7 +70,7 @@ void pollInput(struct InputState* const state) {
 }
 
 void gameUpdate(const struct InputState* const input,
-                struct UIState* const uiState, int* const justScored,
+                struct GameState* const uiState, int* const justScored,
                 struct Player* const player1, struct Player* const player2,
                 struct Ball* const ball) {
 	if (input->pause && uiState->pauseMenu != Settings) {
@@ -112,7 +112,7 @@ void gameLoop(SDL_Renderer* const renderer) {
 	ball_init(&ball, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	// UI
-	struct UIState uiState;
+	struct GameState uiState;
 	ui_init(&uiState, &ball, &player1, &player2);
 
 	// input state
