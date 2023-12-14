@@ -69,6 +69,35 @@ void pollInput(struct InputState* const state) {
 	}
 }
 
+void gameUpdate(const struct InputState* const input,
+                struct UIState* const uiState, int* const justScored,
+                struct Player* const player1, struct Player* const player2,
+                struct Ball* const ball) {
+	if (input->pause) {
+		uiState->paused = !uiState->paused;
+	}
+
+	// entity updates
+	if (*justScored) {
+		if (input->nextRally) {
+			ball_init(ball, WINDOW_WIDTH, WINDOW_HEIGHT);
+			*justScored = 0;
+		}
+	} else if (!uiState->paused) {
+		player_update(player1, input->up1, input->down1);
+		player_update(player2, input->up2, input->down2);
+		enum BallResult res = ball_update(ball, player1, player2);
+		if (res != NoPoints) {
+			if (res == P1Scores) {
+				player1->score++;
+			} else {
+				player2->score++;
+			}
+			*justScored = 1;
+		}
+	}
+}
+
 void gameLoop(SDL_Renderer* const renderer) {
 	// game elements
 	struct Player player1, player2;
@@ -95,28 +124,9 @@ void gameLoop(SDL_Renderer* const renderer) {
 	while (!input.exitGame) {
 		// event polling
 		pollInput(&input);
-		if (input.pause) {
-			uiState.paused = !uiState.paused;
-		}
-
-		// entity updates
-		if (justScored) {
-			if (input.nextRally) {
-				ball_init(&ball, WINDOW_WIDTH, WINDOW_HEIGHT);
-				justScored = 0;
-			}
-		} else if (!uiState.paused) {
-			player_update(&player1, input.up1, input.down1);
-			player_update(&player2, input.up2, input.down2);
-			enum BallResult res = ball_update(&ball, &player1, &player2);
-			if (res != NoPoints) {
-				if (res == P1Scores) {
-					player1.score++;
-				} else {
-					player2.score++;
-				}
-				justScored = 1;
-			}
+		if (uiState.gameInProgress) {
+			gameUpdate(&input, &uiState, &justScored, &player1, &player2,
+			           &ball);
 		}
 
 		// rendering

@@ -6,9 +6,10 @@
 
 void ui_init(struct UIState* const state, struct Player* const p1,
              struct Player* const p2) {
-	state->player1      = p1;
-	state->player2      = p2;
-	state->showMainMenu = state->paused = 0;
+	memset(state, 0, sizeof(struct UIState));
+
+	state->player1 = p1;
+	state->player2 = p2;
 }
 
 void initializeUI(SDL_Window* const window, SDL_Renderer* const renderer) {

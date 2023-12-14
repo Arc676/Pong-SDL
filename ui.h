@@ -11,8 +11,14 @@ extern "C" {
 #endif
 
 struct UIState {
-	int showMainMenu;
+	// main menu state
+	int gameInProgress;
+	int quitPressed;
+
+	// pause menu
 	int paused;
+
+	// game elements
 	struct Player* player1;
 	struct Player* player2;
 };
