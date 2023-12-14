@@ -11,14 +11,6 @@
 #define TRUE  1
 #define FALSE 0
 
-void loadColor(float* output, const SDL_Color* const color) {
-	// NOLINTBEGIN(readability-magic-numbers)
-	output[0] = (float)color->r / 255;
-	output[1] = (float)color->g / 255;
-	output[2] = (float)color->b / 255;
-	// NOLINTEND(readability-magic-numbers)
-}
-
 void ui_init(struct GameState* const state, struct Ball* const ball,
              struct Player* const p1, struct Player* const p2) {
 	memset(state, 0, sizeof(struct GameState));

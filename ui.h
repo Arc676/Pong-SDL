@@ -6,6 +6,7 @@
 
 #include "ball.h"
 #include "player.h"
+#include "util.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -1,5 +1,13 @@
 #include "util.h"
 
+void colorToArray(float* arr, const SDL_Color* const color) {
+	// NOLINTBEGIN(readability-magic-numbers)
+	arr[0] = (float)color->r / 255;
+	arr[1] = (float)color->g / 255;
+	arr[2] = (float)color->b / 255;
+	// NOLINTEND(readability-magic-numbers)
+}
+
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 void initRect(SDL_Rect* const rect, int x, int y, int w, int h) {
 	rect->x = x;
