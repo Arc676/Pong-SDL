@@ -1,4 +1,3 @@
-# Adapted from https://www.geeksforgeeks.org/sdl-library-in-c-c-with-examples/
 CC=gcc
 CPP=g++
 
