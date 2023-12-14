@@ -5,6 +5,7 @@
 #include <SDL2/SDL_stdinc.h>
 #include <stdlib.h>
 
+#include "player.h"
 #include "util.h"
 
 const int BALL_SIZE      = 10;
@@ -46,8 +47,10 @@ enum BallResult ball_update(struct Ball* ball, const struct Player* const p1,
 		ball->y += 2 * ball->vy;
 	}
 
-	SDL_bool hitP1 = SDL_HasIntersection(&ball->rect, &p1->rect);
-	SDL_bool hitP2 = SDL_HasIntersection(&ball->rect, &p2->rect);
+	SDL_bool hitP1 = SDL_HasIntersection(&ball->rect, &p1->rect)
+	                 && abs(ball->x - p1->x) < PLAYER_WIDTH / 2;
+	SDL_bool hitP2 = SDL_HasIntersection(&ball->rect, &p2->rect)
+	                 && abs(ball->x - p2->x) < PLAYER_WIDTH / 2;
 	if (hitP1 || hitP2) {
 		ball->vx *= -1;
 		ball->x += 2 * ball->vx;
