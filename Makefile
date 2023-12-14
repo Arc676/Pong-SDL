@@ -31,6 +31,9 @@ all: $(EXEC)
 makedir:
 	mkdir -p $(ODIR)
 	
+$(ODIR)/ui.o: ui.cpp ui.h makedir
+	$(CPP) $(IMGUI_FLAGS) -c ui.cpp -o $@
+	
 imgui:
 	$(CPP) -c $(IMGUI_FLAGS) $(patsubst %.cpp, imgui/%.cpp, $(IMGUI_SRC))
 	mv imgui*.o $(ODIR)
@@ -38,8 +41,8 @@ imgui:
 $(ODIR)/%.o: %.c $(HDRS) makedir
 	$(CC) $(CFLAGS) -c -o $@ $<
  
-$(EXEC): $(OBJS) $(HDRS) imgui Makefile
-	$(CPP) -o $@ $(OBJS) $(IMGUI_OBJ) $(CLIB) $(CPPLIB) $(SDL)
+$(EXEC): $(OBJS) $(HDRS) imgui $(ODIR)/ui.o Makefile
+	$(CPP) -o $@ $(OBJS) $(IMGUI_OBJ) $(ODIR)/ui.o $(CLIB) $(CPPLIB) $(SDL)
 
 clean:
 	rm -f $(EXEC) $(OBJS) $(IMGUI_OBJ)
