@@ -12,6 +12,8 @@ void initColor(SDL_Color*, Uint8, Uint8, Uint8, Uint8);
 
 void colorToArray(float*, const SDL_Color*);
 
+void arrayToColor(const float*, SDL_Color*);
+
 void setRenderColor(SDL_Renderer*, const SDL_Color*);
 
 #endif

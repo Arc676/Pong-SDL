@@ -6,6 +6,7 @@
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
+#include "util.h"
 
 // Booleans for C
 #define TRUE  1
@@ -18,6 +19,10 @@ void ui_init(struct GameState* const state, struct Ball* const ball,
 	for (int i = 0; i < 3; i++) {
 		state->bColor[i] = state->p1Color[i] = state->p2Color[i] = 1;
 	}
+
+	colorToArray(state->bColor, &ball->color);
+	colorToArray(state->p1Color, &p1->color);
+	colorToArray(state->p2Color, &p2->color);
 
 	state->ball    = ball;
 	state->player1 = p1;
@@ -68,11 +73,7 @@ void pauseMenu(struct GameState* const state) {
 void colorPicker(const char* const label, float* const input,
                  SDL_Color* const output) {
 	ImGui::ColorPicker3(label, input);
-	// NOLINTBEGIN(readability-magic-numbers)
-	output->r = (Uint8)(input[0] * 255);
-	output->g = (Uint8)(input[1] * 255);
-	output->b = (Uint8)(input[2] * 255);
-	// NOLINTEND(readability-magic-numbers)
+	arrayToColor(input, output);
 }
 
 void settingsPanel(struct GameState* const state) {

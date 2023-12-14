@@ -8,6 +8,14 @@ void colorToArray(float* arr, const SDL_Color* const color) {
 	// NOLINTEND(readability-magic-numbers)
 }
 
+void arrayToColor(const float* const arr, SDL_Color* const color) {
+	// NOLINTBEGIN(readability-magic-numbers)
+	color->r = (Uint8)(arr[0] * 255);
+	color->g = (Uint8)(arr[1] * 255);
+	color->b = (Uint8)(arr[2] * 255);
+	// NOLINTEND(readability-magic-numbers)
+}
+
 // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
 void initRect(SDL_Rect* const rect, int x, int y, int w, int h) {
 	rect->x = x;
