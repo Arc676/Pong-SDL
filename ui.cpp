@@ -12,8 +12,8 @@
 #define TRUE  1
 #define FALSE 0
 
-void ui_init(struct GameState* const state, struct Ball* const ball,
-             struct Player* const p1, struct Player* const p2) {
+void gameState_init(struct GameState* const state, struct Ball* const ball,
+                    struct Player* const p1, struct Player* const p2) {
 	memset(state, 0, sizeof(struct GameState));
 
 	for (int i = 0; i < 3; i++) {

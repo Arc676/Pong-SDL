@@ -37,7 +37,8 @@ struct GameState {
 	struct Player* player2;
 };
 
-void ui_init(struct GameState*, struct Ball*, struct Player*, struct Player*);
+void gameState_init(struct GameState*, struct Ball*, struct Player*,
+                    struct Player*);
 
 void initializeUI(SDL_Window*, SDL_Renderer*);
 
