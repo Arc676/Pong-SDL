@@ -12,8 +12,18 @@ const int MAX_BALL_SPEED = 10;
 const int MIN_BALL_SPEED = 1;
 
 void ball_init(struct Ball* ball, int width, int height) {
-	ball->x = width / 2 + BALL_SIZE / 2;
-	ball->y = height / 2 + BALL_SIZE / 2;
+	ball->fieldWidth  = width;
+	ball->fieldHeight = height;
+
+	// NOLINTNEXTLINE(readability-magic-numbers)
+	initColor(&ball->color, 255, 255, 255, 255);
+
+	ball_reset(ball);
+}
+
+void ball_reset(struct Ball* const ball) {
+	ball->x = ball->fieldWidth / 2 + BALL_SIZE / 2;
+	ball->y = ball->fieldHeight / 2 + BALL_SIZE / 2;
 	// NOLINTBEGIN(concurrency-mt-unsafe)
 	if (rand() % 2 == 0) {
 		ball->vx = 1;
@@ -23,11 +33,6 @@ void ball_init(struct Ball* ball, int width, int height) {
 	ball->vy = rand() % (MAX_BALL_SPEED - MIN_BALL_SPEED) + MIN_BALL_SPEED;
 	// NOLINTEND(concurrency-mt-unsafe)
 
-	ball->fieldWidth  = width;
-	ball->fieldHeight = height;
-
-	// NOLINTNEXTLINE(readability-magic-numbers)
-	initColor(&ball->color, 255, 255, 255, 255);
 	initRect(&ball->rect, ball->x, ball->y, BALL_SIZE, BALL_SIZE);
 }
 

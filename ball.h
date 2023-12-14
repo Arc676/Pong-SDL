@@ -32,6 +32,8 @@ enum BallResult {
 
 void ball_init(struct Ball*, int, int);
 
+void ball_reset(struct Ball*);
+
 enum BallResult ball_update(struct Ball*, const struct Player*,
                             const struct Player*);
 

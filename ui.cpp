@@ -11,9 +11,21 @@
 #define TRUE  1
 #define FALSE 0
 
+void loadColor(float* output, const SDL_Color* const color) {
+	// NOLINTBEGIN(readability-magic-numbers)
+	output[0] = (float)color->r / 255;
+	output[1] = (float)color->g / 255;
+	output[2] = (float)color->b / 255;
+	// NOLINTEND(readability-magic-numbers)
+}
+
 void ui_init(struct UIState* const state, struct Ball* const ball,
              struct Player* const p1, struct Player* const p2) {
 	memset(state, 0, sizeof(struct UIState));
+
+	for (int i = 0; i < 3; i++) {
+		state->bColor[i] = state->p1Color[i] = state->p2Color[i] = 1;
+	}
 
 	state->ball    = ball;
 	state->player1 = p1;

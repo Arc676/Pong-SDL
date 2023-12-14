@@ -80,7 +80,7 @@ void gameUpdate(const struct InputState* const input,
 	// entity updates
 	if (*justScored) {
 		if (input->nextRally) {
-			ball_init(ball, WINDOW_WIDTH, WINDOW_HEIGHT);
+			ball_reset(ball);
 			*justScored = 0;
 		}
 	} else if (uiState->pauseMenu == Unpaused) {
