@@ -14,6 +14,7 @@
 #include "ball.h"
 #include "player.h"
 #include "score.h"
+#include "ui.h"
 
 const int WINDOW_WIDTH = 1000, WINDOW_HEIGHT = 1000;
 const int FRAME_DELAY = 1000 / 60;
@@ -29,6 +30,7 @@ void pollInput(struct InputState* const state) {
 	state->nextRally = 0;
 
 	while (SDL_PollEvent(&event)) {
+		imguiProcessEvent(&event);
 		switch (event.type) {
 			case SDL_KEYUP: {
 				SDL_Scancode key = event.key.keysym.scancode;
@@ -106,6 +108,8 @@ void gameLoop(SDL_Renderer* const renderer) {
 		}
 
 		// rendering
+		renderUI();
+
 		// NOLINTNEXTLINE(readability-magic-numbers)
 		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 		SDL_RenderClear(renderer);
@@ -116,6 +120,8 @@ void gameLoop(SDL_Renderer* const renderer) {
 
 		scoreRenderer_render(&srend, renderer, 1, player1.score);
 		scoreRenderer_render(&srend, renderer, 0, player2.score);
+
+		drawUI();
 
 		// update screen
 		SDL_RenderPresent(renderer);
@@ -139,6 +145,8 @@ int main() {
 
 	unsigned flags         = SDL_RENDERER_ACCELERATED;
 	SDL_Renderer* renderer = SDL_CreateRenderer(win, -1, flags);
+
+	initializeUI(win, renderer);
 
 	gameLoop(renderer);
 

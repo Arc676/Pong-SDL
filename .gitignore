@@ -3,3 +3,4 @@ pong
 *.ignore
 obj
 compile_commands.json
+*.ini
