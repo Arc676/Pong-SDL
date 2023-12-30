@@ -90,7 +90,8 @@ void settingsPanel(struct GameState* const state) {
 		ImGui::InputInt("Player 2##Size", &state->player2->height);
 	}
 
-	if (ImGui::CollapsingHeader("Paddle Speeds")) {
+	if (ImGui::CollapsingHeader("Speeds")) {
+		ImGui::InputFloat("Ball##Speed", &state->ball->speed);
 		ImGui::InputInt("Player 1##Speed", &state->player1->speed);
 		ImGui::InputInt("Player 2##Speed", &state->player2->speed);
 	}

@@ -8,14 +8,15 @@
 #include "player.h"
 
 extern const int BALL_SIZE;
-extern const int MAX_BALL_SPEED;
-extern const int MIN_BALL_SPEED;
+extern const float DEFAULT_BALL_SPEED;
 
 struct Ball {
 	int x;
 	int y;
 	int vx;
 	int vy;
+
+	float speed;
 
 	int fieldWidth;
 	int fieldHeight;

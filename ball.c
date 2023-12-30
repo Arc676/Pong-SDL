@@ -3,18 +3,19 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_stdinc.h>
+#include <math.h>
 #include <stdlib.h>
 
 #include "player.h"
 #include "util.h"
 
-const int BALL_SIZE      = 10;
-const int MAX_BALL_SPEED = 10;
-const int MIN_BALL_SPEED = 1;
+const int BALL_SIZE            = 10;
+const float DEFAULT_BALL_SPEED = 14.1421F;  // 10 * sqrt(2)
 
 void ball_init(struct Ball* ball, int width, int height) {
 	ball->fieldWidth  = width;
 	ball->fieldHeight = height;
+	ball->speed       = DEFAULT_BALL_SPEED;
 
 	// NOLINTNEXTLINE(readability-magic-numbers)
 	initColor(&ball->color, 255, 255, 255, 255);
@@ -25,13 +26,19 @@ void ball_init(struct Ball* ball, int width, int height) {
 void ball_reset(struct Ball* const ball) {
 	ball->x = ball->fieldWidth / 2 + BALL_SIZE / 2;
 	ball->y = ball->fieldHeight / 2 + BALL_SIZE / 2;
-	// NOLINTBEGIN(concurrency-mt-unsafe)
+// NOLINTBEGIN(concurrency-mt-unsafe)
+#define ANGLE_RANGE 160
+#define MIN_ANGLE   20
+#if ANGLE_RANGE + MIN_ANGLE != 180
+#error Invalid angle range: total of ANGLE_RANGE and MIN_ANGLE is not 180 degrees
+#endif
+#define TO_RADIANS (M_PI / 180)
+	double angle = (rand() % ANGLE_RANGE + MIN_ANGLE) * TO_RADIANS;
+	ball->vx     = (int)(ball->speed * cos(angle));
+	ball->vy     = (int)(ball->speed * sin(angle));
 	if (rand() % 2 == 0) {
-		ball->vx = 1;
-	} else {
-		ball->vx = -1;
+		ball->vx *= -1;
 	}
-	ball->vy = rand() % (MAX_BALL_SPEED - MIN_BALL_SPEED) + MIN_BALL_SPEED;
 	// NOLINTEND(concurrency-mt-unsafe)
 
 	initRect(&ball->rect, ball->x, ball->y, BALL_SIZE, BALL_SIZE);
