@@ -8,9 +8,9 @@ EXEC=pong
 SDL=`sdl2-config --libs --cflags`
 CFLAGS=$(SDL) -Wall
 CLIB=-lSDL2_image -lm
-HDRS=player.h ball.h util.h score.h
+HDRS=player.h ball.h util.h score.h ui.h state.h
 
-SRCS=main.c player.c ball.c util.c score.c
+SRCS=main.c player.c ball.c util.c score.c state.c
 OBJS=$(patsubst %.c, $(ODIR)/%.o, $(SRCS))
 
 # C++ flags and setup for ImGui UI elements
