@@ -32,6 +32,10 @@ enum BallResult {
 	NoPoints
 };
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 void ball_init(struct Ball*, int, int);
 
 void ball_write(const struct Ball*, FILE*);
@@ -44,5 +48,9 @@ enum BallResult ball_update(struct Ball*, const struct Player*,
                             const struct Player*);
 
 void ball_render(const struct Ball*, SDL_Renderer*);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

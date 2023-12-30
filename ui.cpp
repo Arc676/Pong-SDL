@@ -3,9 +3,11 @@
 #include <cstdio>
 
 #include "SDL_pixels.h"
+#include "ball.h"
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
+#include "player.h"
 #include "state.h"
 #include "util.h"
 
@@ -60,26 +62,7 @@ void colorPicker(const char* const label, float* const input,
 	arrayToColor(input, output);
 }
 
-void settingsPanel(struct GameState* const state) {
-	ImGui::Begin("Settings");
-
-	if (ImGui::CollapsingHeader("Colors")) {
-		colorPicker("Ball##Color", state->bColor, &state->ball->color);
-		colorPicker("Player 1##Color", state->p1Color, &state->player1->color);
-		colorPicker("Player 2##Color", state->p2Color, &state->player2->color);
-	}
-
-	if (ImGui::CollapsingHeader("Paddle Sizes")) {
-		ImGui::InputInt("Player 1##Size", &state->player1->height);
-		ImGui::InputInt("Player 2##Size", &state->player2->height);
-	}
-
-	if (ImGui::CollapsingHeader("Speeds")) {
-		ImGui::InputFloat("Ball##Speed", &state->ball->speed);
-		ImGui::InputInt("Player 1##Speed", &state->player1->speed);
-		ImGui::InputInt("Player 2##Speed", &state->player2->speed);
-	}
-
+void persistenceMenu(struct GameState* const state) {
 	if (ImGui::CollapsingHeader("Save to/Read from disk")) {
 #define FILENAME_BUFLEN 50
 		enum DiskOp : char {
@@ -104,6 +87,11 @@ void settingsPanel(struct GameState* const state) {
 			if (file != nullptr) {
 				if (op == READ) {
 					gameState_read(state, file);
+					if (state->gameInProgress == 0) {
+						ball_reset(state->ball);
+					}
+					player_update(state->player1, 0, 0);
+					player_update(state->player2, 0, 0);
 				} else {
 					gameState_write(state, file);
 				}
@@ -111,6 +99,29 @@ void settingsPanel(struct GameState* const state) {
 			}
 		}
 	}
+}
+
+void settingsPanel(struct GameState* const state) {
+	ImGui::Begin("Settings");
+
+	if (ImGui::CollapsingHeader("Colors")) {
+		colorPicker("Ball##Color", state->bColor, &state->ball->color);
+		colorPicker("Player 1##Color", state->p1Color, &state->player1->color);
+		colorPicker("Player 2##Color", state->p2Color, &state->player2->color);
+	}
+
+	if (ImGui::CollapsingHeader("Paddle Sizes")) {
+		ImGui::InputInt("Player 1##Size", &state->player1->height);
+		ImGui::InputInt("Player 2##Size", &state->player2->height);
+	}
+
+	if (ImGui::CollapsingHeader("Speeds")) {
+		ImGui::InputFloat("Ball##Speed", &state->ball->speed);
+		ImGui::InputInt("Player 1##Speed", &state->player1->speed);
+		ImGui::InputInt("Player 2##Speed", &state->player2->speed);
+	}
+
+	persistenceMenu(state);
 
 	if (ImGui::Button("Close")) {
 		state->pauseMenu = (bool)state->gameInProgress ? Paused : Unpaused;
