@@ -1,6 +1,10 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
@@ -15,5 +19,9 @@ void colorToArray(float*, const SDL_Color*);
 void arrayToColor(const float*, SDL_Color*);
 
 void setRenderColor(SDL_Renderer*, const SDL_Color*);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
