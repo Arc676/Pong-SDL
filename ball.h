@@ -4,6 +4,7 @@
 #include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
+#include <stdio.h>
 
 #include "player.h"
 
@@ -32,6 +33,10 @@ enum BallResult {
 };
 
 void ball_init(struct Ball*, int, int);
+
+void ball_write(const struct Ball*, FILE*);
+
+void ball_read(struct Ball*, FILE*);
 
 void ball_reset(struct Ball*);
 

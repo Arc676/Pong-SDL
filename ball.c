@@ -1,9 +1,11 @@
 #include "ball.h"
 
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_stdinc.h>
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "player.h"
@@ -21,6 +23,16 @@ void ball_init(struct Ball* ball, int width, int height) {
 	initColor(&ball->color, 255, 255, 255, 255);
 
 	ball_reset(ball);
+}
+
+void ball_write(const struct Ball* const ball, FILE* const file) {
+	fwrite(&ball->speed, sizeof(ball->speed), 1, file);
+	fwrite(&ball->color, sizeof(SDL_Color), 1, file);
+}
+
+void ball_read(struct Ball* const ball, FILE* const file) {
+	fread(&ball->speed, sizeof(ball->speed), 1, file);
+	fread(&ball->color, sizeof(SDL_Color), 1, file);
 }
 
 void ball_reset(struct Ball* const ball) {

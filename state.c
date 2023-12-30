@@ -25,14 +25,14 @@ void gameState_init(struct GameState* const state, struct Ball* const ball,
 }
 
 void gameState_write(const struct GameState* const state, FILE* const file) {
-	fwrite(state->ball, sizeof(struct Ball), 1, file);
-	fwrite(state->player1, sizeof(struct Player), 1, file);
-	fwrite(state->player2, sizeof(struct Player), 1, file);
+	ball_write(state->ball, file);
+	player_write(state->player1, file);
+	player_write(state->player2, file);
 }
 
 void gameState_read(struct GameState* const state, FILE* const file) {
-	fread(state->ball, sizeof(struct Ball), 1, file);
-	fread(state->player1, sizeof(struct Player), 1, file);
-	fread(state->player2, sizeof(struct Player), 1, file);
+	ball_read(state->ball, file);
+	player_read(state->player1, file);
+	player_read(state->player2, file);
 	gameState_cacheColors(state);
 }
