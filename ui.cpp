@@ -80,19 +80,19 @@ void settingsPanel(struct GameState* const state) {
 	ImGui::Begin("Settings");
 
 	if (ImGui::CollapsingHeader("Colors")) {
-		colorPicker("Ball Color", state->bColor, &state->ball->color);
-		colorPicker("Player 1 Color", state->p1Color, &state->player1->color);
-		colorPicker("Player 2 Color", state->p2Color, &state->player2->color);
+		colorPicker("Ball##Color", state->bColor, &state->ball->color);
+		colorPicker("Player 1##Color", state->p1Color, &state->player1->color);
+		colorPicker("Player 2##Color", state->p2Color, &state->player2->color);
 	}
 
 	if (ImGui::CollapsingHeader("Paddle Sizes")) {
-		ImGui::InputInt("Player 1", &state->player1->height);
-		ImGui::InputInt("Player 2", &state->player2->height);
+		ImGui::InputInt("Player 1##Size", &state->player1->height);
+		ImGui::InputInt("Player 2##Size", &state->player2->height);
 	}
 
 	if (ImGui::CollapsingHeader("Paddle Speeds")) {
-		ImGui::InputInt("Player 1", &state->player1->speed);
-		ImGui::InputInt("Player 2", &state->player2->speed);
+		ImGui::InputInt("Player 1##Speed", &state->player1->speed);
+		ImGui::InputInt("Player 2##Speed", &state->player2->speed);
 	}
 
 	if (ImGui::Button("Close")) {
