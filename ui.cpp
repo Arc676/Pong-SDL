@@ -6,6 +6,7 @@
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
+#include "state.h"
 #include "util.h"
 
 // Booleans for C
@@ -77,6 +78,38 @@ void settingsPanel(struct GameState* const state) {
 		ImGui::InputFloat("Ball##Speed", &state->ball->speed);
 		ImGui::InputInt("Player 1##Speed", &state->player1->speed);
 		ImGui::InputInt("Player 2##Speed", &state->player2->speed);
+	}
+
+	if (ImGui::CollapsingHeader("Save to/Read from disk")) {
+#define FILENAME_BUFLEN 50
+		enum DiskOp : char {
+			NONE = 0,
+			WRITE,
+			READ
+		};
+
+		static char filename[FILENAME_BUFLEN];
+		enum DiskOp op = NONE;
+
+		ImGui::InputText("Filename", filename, FILENAME_BUFLEN);
+		if (ImGui::Button("Save")) {
+			op = WRITE;
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Load")) {
+			op = READ;
+		}
+		if (op != NONE) {
+			FILE* file = fopen(filename, op == READ ? "rb" : "wb");
+			if (file != nullptr) {
+				if (op == READ) {
+					gameState_read(state, file);
+				} else {
+					gameState_write(state, file);
+				}
+				fclose(file);
+			}
+		}
 	}
 
 	if (ImGui::Button("Close")) {

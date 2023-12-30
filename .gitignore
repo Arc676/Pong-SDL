@@ -4,3 +4,4 @@ pong
 obj
 compile_commands.json
 *.ini
+*.dat

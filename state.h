@@ -1,6 +1,8 @@
 #ifndef STATE_H
 #define STATE_H
 
+#include <stdio.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -32,6 +34,10 @@ struct GameState {
 
 void gameState_init(struct GameState*, struct Ball*, struct Player*,
                     struct Player*);
+
+void gameState_write(const struct GameState*, FILE*);
+
+void gameState_read(struct GameState*, FILE*);
 
 #ifdef __cplusplus
 }
