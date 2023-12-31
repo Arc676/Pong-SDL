@@ -25,6 +25,11 @@ IMGUI_SRC=imgui.cpp imgui_draw.cpp imgui_widgets.cpp imgui_tables.cpp backends/i
 IMGUI_OBJ=$(patsubst %.cpp, $(ODIR)/%.o, $(patsubst backends/%, %, $(IMGUI_SRC)))
 IMGUI_FLAGS=-I imgui -I imgui/backends $(SDL)
 
+ifdef Release
+CFLAGS+=-O3
+IMGUI_FLAGS+=-O3
+endif
+
 all: $(EXEC)
 	
 makedir:
@@ -36,7 +41,7 @@ $(ODIR)/ui.o: ui.cpp ui.h makedir
 $(ODIR)/imgui_impl_%.o: imgui/backends/imgui_impl_%.cpp
 	$(CPP) -c $(IMGUI_FLAGS) -o $@ $<
 	
-$(ODIR)/imgui_%.o: imgui/imgui_%.cpp
+$(ODIR)/imgu%.o: imgui/imgu%.cpp
 	$(CPP) -c $(IMGUI_FLAGS) -o $@ $<
 	
 $(ODIR)/%.o: %.c $(HDRS) makedir
