@@ -39,15 +39,18 @@ void ball_reset(struct Ball* const ball) {
 	ball->x = ball->fieldWidth / 2 + BALL_SIZE / 2;
 	ball->y = ball->fieldHeight / 2 + BALL_SIZE / 2;
 // NOLINTBEGIN(concurrency-mt-unsafe)
-#define ANGLE_RANGE 160
+#define ANGLE_RANGE 60
 #define MIN_ANGLE   20
-#if ANGLE_RANGE + MIN_ANGLE != 180
-#error Invalid angle range: total of ANGLE_RANGE and MIN_ANGLE is not 180 degrees
+#if ANGLE_RANGE + MIN_ANGLE >= 90
+#error Invalid angle range
 #endif
 #define TO_RADIANS (M_PI / 180)
 	double angle = (rand() % ANGLE_RANGE + MIN_ANGLE) * TO_RADIANS;
-	ball->vx     = (int)(ball->speed * cos(angle));
-	ball->vy     = (int)(ball->speed * sin(angle));
+	if (rand() % 2 == 0) {
+		angle *= -1;
+	}
+	ball->vx = (int)(ball->speed * cos(angle));
+	ball->vy = (int)(ball->speed * sin(angle));
 	if (rand() % 2 == 0) {
 		ball->vx *= -1;
 	}
