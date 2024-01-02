@@ -104,6 +104,13 @@ void persistenceMenu(struct GameState* const state) {
 void settingsPanel(struct GameState* const state) {
 	ImGui::Begin("Settings");
 
+	if (ImGui::CollapsingHeader("Computer Controller Players")) {
+		ImGui::Checkbox("Player 1##CC",
+		                (bool*)&state->player1->computerControlled);
+		ImGui::Checkbox("Player 2##CC",
+		                (bool*)&state->player2->computerControlled);
+	}
+
 	if (ImGui::CollapsingHeader("Colors")) {
 		colorPicker("Ball##Color", state->bColor, &state->ball->color);
 		colorPicker("Player 1##Color", state->p1Color, &state->player1->color);

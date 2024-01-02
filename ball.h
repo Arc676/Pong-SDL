@@ -6,7 +6,7 @@
 #include <SDL2/SDL_render.h>
 #include <stdio.h>
 
-#include "player.h"
+struct Player;
 
 extern const int BALL_SIZE;
 extern const float DEFAULT_BALL_SPEED;

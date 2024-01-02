@@ -1,9 +1,11 @@
 #include "player.h"
 
+#include <SDL2/SDL_pixels.h>
 #include <SDL2/SDL_render.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-#include "SDL_pixels.h"
+#include "ball.h"
 #include "util.h"
 
 const int EDGE_MARGIN   = 10;
@@ -12,7 +14,8 @@ const int PLAYER_WIDTH  = 10;
 
 void player_init(int first, struct Player* const player, int width,
                  int height) {
-	player->score = 0;
+	player->score              = 0;
+	player->computerControlled = 0;
 
 	player->speed  = 3;
 	player->height = PLAYER_HEIGHT;
@@ -35,6 +38,42 @@ void player_read(struct Player* const player, FILE* const file) {
 	fread(&player->speed, sizeof(int), 1, file);
 	fread(&player->height, sizeof(int), 1, file);
 	fread(&player->color, sizeof(SDL_Color), 1, file);
+}
+
+void player_computerUpdate(struct Player* const player,
+                           const struct Ball* const ball) {
+	// do nothing if ball isn't moving
+	if (ball->vx == 0 || ball->vy == 0) {
+		return;
+	}
+	// do nothing if ball is moving away from paddle
+	if ((ball->vx > 0) == (ball->x > player->x)) {
+		return;
+	}
+	const int dx = player->x - ball->x;
+	const int dt = dx / ball->vx;
+	const int dy = ball->vy * dt;
+	// determine final ball Y coordinate ignoring field boundaries
+	const int yf = ball->y + dy;
+	// number of times the ball would bounce off the boundaries
+	const int traversals = yf / ball->fieldHeight - (yf < 0);
+	// true final Y coordinate
+	int target = yf - traversals * ball->fieldHeight;
+	if (traversals % 2 != 0) {
+		target = ball->fieldHeight - target;
+	}
+	// account for ball size
+	target += BALL_SIZE / 2;
+	// aim to hit with paddle center
+	const int current = player->y + player->height / 2;
+	if (abs(current - target) > player->speed) {
+		if (current < target) {
+			player->y += player->speed;
+		} else if (current > target) {
+			player->y -= player->speed;
+		}
+	}
+	initRect(&player->rect, player->x, player->y, PLAYER_WIDTH, player->height);
 }
 
 void player_update(struct Player* const player, int up, int down) {
