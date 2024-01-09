@@ -45,12 +45,14 @@ void player_write(const struct Player* const player, FILE* const file) {
 	fwrite(&player->speed, sizeof(int), 1, file);
 	fwrite(&player->height, sizeof(int), 1, file);
 	fwrite(&player->color, sizeof(SDL_Color), 1, file);
+	fwrite(&player->level, sizeof(enum PaddleSkill), 1, file);
 }
 
 void player_read(struct Player* const player, FILE* const file) {
 	fread(&player->speed, sizeof(int), 1, file);
 	fread(&player->height, sizeof(int), 1, file);
 	fread(&player->color, sizeof(SDL_Color), 1, file);
+	fread(&player->level, sizeof(enum PaddleSkill), 1, file);
 }
 
 int computeExactTarget(const struct Player* const player,
