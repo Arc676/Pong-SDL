@@ -12,10 +12,23 @@ const int EDGE_MARGIN   = 10;
 const int PLAYER_HEIGHT = 40;
 const int PLAYER_WIDTH  = 10;
 
+const char* skillToString(const enum PaddleSkill level) {
+	switch (level) {
+		case PLAYER:
+			return "Human";
+		case FOLLOW_BALL:
+			return "Computer (easy)";
+		case PRECOMPUTE:
+			return "Computer (hard)";
+		default:
+			return "Unknown player control mode";
+	}
+}
+
 void player_init(int first, struct Player* const player, int width,
                  int height) {
-	player->score              = 0;
-	player->computerControlled = 0;
+	player->score = 0;
+	player->level = PLAYER;
 
 	player->speed  = 3;
 	player->height = PLAYER_HEIGHT;
@@ -73,15 +86,30 @@ void player_computerUpdate(struct Player* const player,
 			player->y -= player->speed;
 		}
 	}
-	initRect(&player->rect, player->x, player->y, PLAYER_WIDTH, player->height);
 }
 
-void player_update(struct Player* const player, int up, int down) {
+void player_humanUpdate(struct Player* const player, int up, int down) {
 	if (up) {
 		player->y -= player->speed;
 	}
 	if (down) {
 		player->y += player->speed;
+	}
+}
+
+void player_update(struct Player* const player, int up, int down,
+                   const struct Ball* const ball) {
+	if (ball) {
+		switch (player->level) {
+			case PLAYER:
+				player_humanUpdate(player, up, down);
+				break;
+			case PRECOMPUTE:
+				player_computerUpdate(player, ball);
+				break;
+			default:
+				break;
+		}
 	}
 	initRect(&player->rect, player->x, player->y, PLAYER_WIDTH, player->height);
 }

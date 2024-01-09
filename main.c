@@ -84,16 +84,8 @@ void gameUpdate(const struct InputState* const input,
 			*justScored = 0;
 		}
 	} else if (uiState->pauseMenu == Unpaused) {
-		if (player1->computerControlled) {
-			player_computerUpdate(player1, ball);
-		} else {
-			player_update(player1, input->up1, input->down1);
-		}
-		if (player2->computerControlled) {
-			player_computerUpdate(player2, ball);
-		} else {
-			player_update(player2, input->up2, input->down2);
-		}
+		player_update(player1, input->up1, input->down1, ball);
+		player_update(player2, input->up2, input->down2, ball);
 		enum BallResult res = ball_update(ball, player1, player2);
 		if (res != NoPoints) {
 			if (res == P1Scores) {

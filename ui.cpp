@@ -1,5 +1,6 @@
 #include "ui.h"
 
+#include <cstddef>
 #include <cstdio>
 
 #include "SDL_pixels.h"
@@ -90,8 +91,8 @@ void persistenceMenu(struct GameState* const state) {
 					if (state->gameInProgress == 0) {
 						ball_reset(state->ball);
 					}
-					player_update(state->player1, 0, 0);
-					player_update(state->player2, 0, 0);
+					player_update(state->player1, 0, 0, NULL);
+					player_update(state->player2, 0, 0, NULL);
 				} else {
 					gameState_write(state, file);
 				}
@@ -101,14 +102,27 @@ void persistenceMenu(struct GameState* const state) {
 	}
 }
 
+void chooseLevel(const char* label, enum PaddleSkill& level) {
+	if (ImGui::BeginCombo(label, skillToString(level))) {
+		for (int lvl = 0; lvl < SKILL_END; lvl++) {
+			if (ImGui::Selectable(skillToString((enum PaddleSkill)lvl),
+			                      level == lvl)) {
+				level = (enum PaddleSkill)lvl;
+			}
+			if (level == lvl) {
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+	}
+}
+
 void settingsPanel(struct GameState* const state) {
 	ImGui::Begin("Settings");
 
 	if (ImGui::CollapsingHeader("Computer Controller Players")) {
-		ImGui::Checkbox("Player 1##CC",
-		                (bool*)&state->player1->computerControlled);
-		ImGui::Checkbox("Player 2##CC",
-		                (bool*)&state->player2->computerControlled);
+		chooseLevel("Player 1##CC", state->player1->level);
+		chooseLevel("Player 2##CC", state->player2->level);
 	}
 
 	if (ImGui::CollapsingHeader("Colors")) {
