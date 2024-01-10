@@ -34,8 +34,8 @@ void scoreRenderer_render(const struct ScoreRenderer* const srend,
 	SDL_Rect rect;
 	int digitCount = score > 0 ? (int)log10(score) + 1 : 1;
 
-	int x = first ? SCORE_X
-	              : srend->screenWidth - SCORE_X - SPRITE_SIZE * digitCount;
+	int x = first ? SCORE_X + SPRITE_SIZE * (digitCount - 1)
+	              : srend->screenWidth - SCORE_X - SPRITE_SIZE;
 	if (digitCount == 1) {
 		initRect(&rect, x, SCORE_Y, SPRITE_SIZE, SPRITE_SIZE);
 		SDL_RenderCopy(renderer, srend->digits[score], NULL, &rect);
@@ -49,11 +49,7 @@ void scoreRenderer_render(const struct ScoreRenderer* const srend,
 			initRect(&rect, x, SCORE_Y, SPRITE_SIZE, SPRITE_SIZE);
 			SDL_RenderCopy(renderer, srend->digits[digit], NULL, &rect);
 
-			if (first) {
-				x += SPRITE_SIZE;
-			} else {
-				x -= SPRITE_SIZE;
-			}
+			x -= SPRITE_SIZE;
 		}
 	}
 }
