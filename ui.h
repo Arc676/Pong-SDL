@@ -15,6 +15,8 @@ extern "C" {
 
 void initializeUI(SDL_Window*, SDL_Renderer*);
 
+void cleanupUI();
+
 void imguiProcessEvent(const SDL_Event*);
 
 void renderUI(struct GameState*);

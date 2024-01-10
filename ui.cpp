@@ -28,6 +28,12 @@ void initializeUI(SDL_Window* const window, SDL_Renderer* const renderer) {
 	ImGui_ImplSDLRenderer2_Init(renderer);
 }
 
+void cleanupUI() {
+	ImGui_ImplSDLRenderer2_Shutdown();
+	ImGui_ImplSDL2_Shutdown();
+	ImGui::DestroyContext();
+}
+
 void imguiProcessEvent(const SDL_Event* const event) {
 	ImGui_ImplSDL2_ProcessEvent(event);
 }

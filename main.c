@@ -162,6 +162,11 @@ int main() {
 	// returns zero on success else non-zero
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		printf("error initializing SDL: %s\n", SDL_GetError());
+		return 1;
+	}
+	if (IMG_Init(IMG_INIT_PNG) != IMG_INIT_PNG) {
+		printf("error initializing SDL_image: %s\n", IMG_GetError());
+		return 1;
 	}
 
 	srand(time(NULL));
@@ -174,11 +179,12 @@ int main() {
 	SDL_Renderer* renderer = SDL_CreateRenderer(win, -1, flags);
 
 	initializeUI(win, renderer);
-
 	gameLoop(renderer);
+	cleanupUI();
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(win);
+	IMG_Quit();
 	SDL_Quit();
 
 	return 0;
