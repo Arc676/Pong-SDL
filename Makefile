@@ -26,8 +26,10 @@ IMGUI_OBJ=$(patsubst %.cpp, $(ODIR)/%.o, $(patsubst backends/%, %, $(IMGUI_SRC))
 IMGUI_FLAGS=-I imgui -I imgui/backends $(SDL)
 
 ifdef Release
-CFLAGS+=-O3
-IMGUI_FLAGS+=-O3
+	CFLAGS+=-O3
+	IMGUI_FLAGS+=-O3
+else
+	CFLAGS+=-g
 endif
 
 all: $(EXEC)
