@@ -5,3 +5,5 @@ obj
 compile_commands.json
 *.ini
 *.dat
+build
+dependencies/imgui/imgui
