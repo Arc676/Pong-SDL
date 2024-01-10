@@ -11,7 +11,7 @@ extern const int EDGE_MARGIN;
 extern const int PLAYER_HEIGHT;
 extern const int PLAYER_WIDTH;
 
-enum PaddleSkill : int {
+enum PaddleSkill : char {
 	PLAYER = 0,
 	FOLLOW_BALL,
 	PRECOMPUTE,
