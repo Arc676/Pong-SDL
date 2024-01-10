@@ -26,12 +26,12 @@ void ball_init(struct Ball* ball, int width, int height) {
 }
 
 void ball_write(const struct Ball* const ball, FILE* const file) {
-	fwrite(&ball->speed, sizeof(ball->speed), 1, file);
+	fwrite(&ball->speed, sizeof(Speed_t), 1, file);
 	fwrite(&ball->color, sizeof(SDL_Color), 1, file);
 }
 
 void ball_read(struct Ball* const ball, FILE* const file) {
-	fread(&ball->speed, sizeof(ball->speed), 1, file);
+	fread(&ball->speed, sizeof(Speed_t), 1, file);
 	fread(&ball->color, sizeof(SDL_Color), 1, file);
 }
 

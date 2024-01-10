@@ -11,13 +11,14 @@ struct Player;
 extern const int BALL_SIZE;
 extern const float DEFAULT_BALL_SPEED;
 
+typedef float Speed_t;
 struct Ball {
 	int x;
 	int y;
 	int vx;
 	int vy;
 
-	float speed;
+	Speed_t speed;
 
 	int fieldWidth;
 	int fieldHeight;
